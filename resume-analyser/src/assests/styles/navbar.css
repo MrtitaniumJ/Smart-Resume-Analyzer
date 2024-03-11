@@ -1,0 +1,134 @@
+/* Navbar.css */
+
+.navbar {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.navbar-links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links ul li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #ff5722; /* Orange color */
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.login-btn {
+  background-color: #ff5722;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.signup-btn {
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #333;
+}
+
+.signup-btn:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.logout-btn {
+  background-color: #ff5722;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.logout-btn:hover {
+  background-color: #ff2f00;
+  color: #fff;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.user-icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.dropdown-content p {
+  margin: 5px 0;
+}
+
+.dropdown-content button {
+  margin-top: 10px;
+}
+
