@@ -24,7 +24,7 @@ const Signup = () => {
             }
 
             //send POST request to signup endpoint
-            const response = await fetch(`${API_URL}/api/register`, {
+            const response = await fetch(`${API_URL}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ const Signup = () => {
             });
 
             if (response.ok) {
-                navigate('/login');
+                navigate('/');
             } else {
                 const errorData = await response.json();
                 setError(errorData.error || 'Signup failed');

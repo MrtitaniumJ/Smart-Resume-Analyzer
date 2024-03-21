@@ -17,17 +17,17 @@ const WhyChooseUs = () => {
           <div className="why-choose-us-tabs">
             <div className="tabs">
               <div className={`tab ${selectedTab === 'tab-1' ? 'active' : ''}`} onClick={() => handleTabClick('tab-1')}>
-                <span>ATS Resume Checker</span>
+                <span>Smart Resume Analyzer</span>
               </div>
               <div className={`tab ${selectedTab === 'tab-2' ? 'active' : ''}`} onClick={() => handleTabClick('tab-2')}>
-                <span>Resume & Cover Letter Optimization</span>
+                <span>Resume Optimization</span>
               </div>
               <div className={`tab ${selectedTab === 'tab-3' ? 'active' : ''}`} onClick={() => handleTabClick('tab-3')}>
-                <span>Resume Builder</span>
+                <span>Skill Enhancer</span>
               </div>
-              <div className={`tab ${selectedTab === 'tab-4' ? 'active' : ''}`} onClick={() => handleTabClick('tab-4')}>
-                <span>LinkedIn Profile Optimization</span>
-              </div>
+              {/* <div className={`tab ${selectedTab === 'tab-4' ? 'active' : ''}`} onClick={() => handleTabClick('tab-4')}>
+                <span></span>
+              </div> */}
             </div>
           </div>
           <div className="why-choose-us-details">

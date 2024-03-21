@@ -14,6 +14,10 @@ const resumeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    content: {
+        type: String,
+        required: true
+    },
     uploadedAt: {
         type: Date,
         default: Date.now

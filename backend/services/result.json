@@ -1,0 +1,67 @@
+{
+    "message": "Resume analysis completed",
+    "analysis": {
+        "contactInfo": {
+            "name": "Jatin Sharma",
+            "emailAddress": "jkjatinsharma72@gmail.com",
+            "phoneNumber": "(+91) 6367807635",
+            "address": {
+                "city": "Bharatpur",
+                "state": "Rajasthan",
+                "country": "India"
+            },
+            "links": ["LinkedIn", "Portfolio"]
+        },
+        "jobTitle": null,
+        "education": {
+            "education1": {
+                "degree": "Higher School",
+                "school": "Ascent Education Sr Sec School",
+                "city": "Bharatpur",
+                "passingYear": "2018"
+            },
+            "education2": {
+                "degree": "Bachelor of Technology",
+                "school": "GLA University",
+                "city": "Mathura",
+                "passingYear": "2025"
+            },
+            "education3": {
+                "degree": "Intermediate",
+                "school": "Ascent Education Sr Sec School",
+                "city": "Bharatpur",
+                "passingYear": "2020"
+            }
+        },
+        "workExperience": {
+            "expereince1": {
+                "position": "Web Developer Intern",
+                "company": "IGOKO Avionics Pvt Ltd",
+                "city": "Delhi",
+                "duration": "June 2023 - July 2023",
+                "keyResponsibilities": "Worked on various projects using HTML, CSS, JavaScript, Django, ReactJs, NodeJs, ExpressJs, and MongoDB. Contributed to the development of B2B and B2G applications, gaining real-world experience. Collaborated with senior developers to design and implement scalable solutions. Participated in the requirement gathering and prototype building process of software development"
+            },
+            "expereince2": {
+                "position": "Trainee",
+                "company": "GLA University",
+                "city": "Mathura",
+                "duration": "June 2023 - July 2023",
+                "keyResponsibilities": "Learnt fundamentals of DSA and Competitive Programming. Post completing the training, completed 100+ questions on Leetcode and participated in Hackathons."
+            },
+            "expereince3": {
+                "position": "Vice President",
+                "company": "GLAU CodeChef Chapter-CodeBusters",
+                "city": "",
+                "duration": "May 2022 - Present",
+                "keyResponsibilities": "Led the chapter in achieving significant growth and recognition within the university. Organized and managed multiple workshops, tech fests, and coding contests. Facilitated collaborations between students, faculty, and industry professionals. Provided mentorship and guidance to members, fostering skill development."
+            }
+        },
+        "skills": {
+            "softSkills": ["Leadership", "Impactful Communcation", "Teamwork", "Team Mangement", "Critical Thinking", "Logic Building"],
+            "hardSkills": ["Java", "Python", "C", "SQL", "JavaScript", "HTML/CSS", "Dart", "ReactJs", "NodeJs", "Flask", "WordPress", "Flutter", "Git/Github", "Google Cloud Platform", "Firebase", "VS Code", "PyCharm IntelliJ", "IntelliJ Idea", "Android Studio", "Dev C++", "MySQL", "VMware", "pandas", "NumPy", "Matplotlib", "BeautifulSoup"]
+        },
+        "analysisReport": {
+            "asd":"asd"
+        }
+    }
+}

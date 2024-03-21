@@ -8,7 +8,7 @@ router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
 router.post('/logout', userController.logoutUser);
 
-//Protected routes for users
+// Protected routes for users
 router.get('/user', authenticateUser, userController.getUserDetails);
 router.put('/user', authenticateUser, userController.updateUserDetails);
 router.delete('/user', authenticateUser, userController.deleteUserAccount);

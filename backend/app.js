@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
+const resumeRoutes = require('./routes/resumeRoutes');
+const userRouter=require('./routes/userRoutes');
 const { validationError, globalErrorHandler } = require('./utils/errorHandlers');
 const cors = require('cors');
 require('dotenv').config();
@@ -10,11 +12,8 @@ const app = express();
 
 app.use(cors());
 
-// Implement models
-const { User, Resume } = require('./models');
-
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://jkjatinsharma72:resume-analyser@cluster0.m7ldc4t.mongodb.net/test', {
+mongoose.connect('mongodb://localhost:27017/smart-resume-analyser', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -29,6 +28,9 @@ mongoose.connect('mongodb+srv://jkjatinsharma72:resume-analyser@cluster0.m7ldc4t
 app.use(bodyParser.json());
 
 //Routes 
+// app.use(routes);
+app.use(userRouter);
+app.use(resumeRoutes);
 app.use(routes);
 
 //Error handling middleware

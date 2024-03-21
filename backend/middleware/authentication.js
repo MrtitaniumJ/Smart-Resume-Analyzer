@@ -16,7 +16,7 @@ exports.authenticateUser = async (req, res, next) => {
         const user = await User.findById(decoded.userId);
 
         if (!user) {
-            return res.status(401).json({ error: 'Unauthorized - No token provided' });
+            return res.status(401).json({ error: 'Unauthorized - Invalid token' });
         }
 
         req.userId = decoded.userId;

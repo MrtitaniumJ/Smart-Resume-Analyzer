@@ -12,11 +12,11 @@ const App = () => {
     <Router>
       <div className="app">
         <Navbar />
-        <HeroSection />
-        <WhyChooseUs />
-        <HowItWorks />
+
         <Routes>
           <Route exact path='/' Component={HeroSection} />
+          <Route exact path='/About' Component={WhyChooseUs} />
+          <Route exact path='/Services' Component={HowItWorks} />
           <Route path='/login' Component={Login} />
           <Route path='/register' Component={Signup} />
         </Routes>

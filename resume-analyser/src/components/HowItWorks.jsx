@@ -53,6 +53,7 @@ const HowItWorks = () => {
   };
 
   return (
+    
     <div className="how-it-works-container">
       {/* Main content of your page */}
       {/* Button to trigger file upload */}
