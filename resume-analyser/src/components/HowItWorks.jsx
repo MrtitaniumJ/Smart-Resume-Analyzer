@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import UploadModal from './modals/UploadModal';
 import LoginModal from './modals/LoginModal';
 import JobDescriptionModal from './modals/JobDescriptionModal';
@@ -13,58 +14,86 @@ const HowItWorks = () => {
   const [uploadedResume, setUploadedResume] = useState(null);
   const [jobDescription, setJobDescription] = useState('');
   const [analysisData, setAnalysisData] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleUpload = (file) => {
-    // Simulate uploading the resume to the database
-    setUploadedResume(file);
-    setUploadModalOpen(false);
-    setJobDescriptionModalOpen(true);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleUpload = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append('resume', file);
+
+      const token = localStorage.getItem('token');
+      if (!token) {
+        //alert('User not authenticated. Please logg in.');
+        setLoginModalOpen(true);
+        return;
+      }
+
+      //api call
+      const response = await axios.post('http://localhost:3001/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      //handle response from server
+      console.log("Resume uploaded successfully:", response.data.resume);
+      setUploadedResume(file);
+      setUploadModalOpen(false);
+      setJobDescriptionModalOpen(true);
+    } catch (error) {
+      console.error('Error uploading resume:', error.message);
+    }
   };
 
-  const handleLogin = () => {
-    // Your login logic here
-    setLoginModalOpen(false);
-    // After successful login, open the upload modal
-    setUploadModalOpen(true);
+  const handleLogin = async (userData) => {
+    try {
+      const response = await axios.post('http://localhost:3001/login', userData);
+      const { token } = response.data;
+      localStorage.setItem('token', token);
+      setIsLoggedIn(true);
+      setLoginModalOpen(false);
+    } catch (error) {
+      console.error('Error logging in: ', error.message);
+    }
   };
 
-  const handleAnalysis = () => {
-    // Simulate analysis logic here
-    const analysisResult = {
-      // Sample analysis data, replace with actual logic
-      contactInfo: true,
-      jobTitleMatch: true,
-      educationMatch: true,
-      sectionHeadings: 'Valid',
-      dateFormat: 'Valid',
-      skillsComparison: 'Excellent',
-      highlightedSkills: ['React', 'Node.js'],
-      softSkillsComparison: 'Good',
-      highlightedSoftSkills: ['Communication', 'Teamwork'],
-      otherKeywords: ['Agile', 'Problem-solving'],
-      matchedSkills: ['React', 'Node.js', 'Communication'],
-      missingSkills: ['Java', 'Python'],
-      overallScore: 85,
-      suggestedCourses: ['Advanced React', 'Effective Communication'],
-    };
-    setAnalysisData(analysisResult);
-    setJobDescriptionModalOpen(false);
-    setAnalysisReportModalOpen(true);
+  const handleAnalysis = async () => {
+    try {
+      // Simulate analysis logic here
+      const response = await axios.get('http://localhost:3001/analyze', {
+        jobDescription
+      });
+
+      // Handle response from the server
+      console.log(response.data);
+      setAnalysisData(response.data);
+      setJobDescriptionModalOpen(false);
+      setAnalysisReportModalOpen(true);
+    } catch (error) {
+      console.error('Error analyzing resume:', error.message);
+    }
   };
 
   return (
-    
     <div className="how-it-works-container">
-      {/* Main content of your page */}
-      {/* Button to trigger file upload */}
-      <button onClick={() => setUploadModalOpen(true)}>Upload Your Resume</button>
+      {isLoggedIn ? (
+        <button onClick={() => setUploadModalOpen(true)}>Upload Your Resume</button>
+      ) : (
+        <button onClick={() => setLoginModalOpen(true)}>Login to Upload Resume</button>
+      )}
 
-      {/* Modals */}
       {isUploadModalOpen && <UploadModal onUpload={handleUpload} onClose={() => setUploadModalOpen(false)} />}
       {isLoginModalOpen && <LoginModal onLogin={handleLogin} onClose={() => setLoginModalOpen(false)} />}
       {isJobDescriptionModalOpen && (
         <JobDescriptionModal
-          uploadedResume={uploadedResume}
           onAnalysis={handleAnalysis}
           onJobDescriptionChange={(value) => setJobDescription(value)}
           onClose={() => setJobDescriptionModalOpen(false)}

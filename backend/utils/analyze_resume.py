@@ -19,8 +19,70 @@ class AnalyzeResume:
             "communication", "teamwork", "time management", "leadership", "adaptability", 
             "problem-solving", "creativity", "emotional intelligence", "critical thinking"
         ]
-        self.stop_words = set(nltk.corpus.stopwords.words('english'))
+        self.stop_words = set(stopwords.words('english'))
         
+    def preprocess_text(self, text):
+        text = re.sub(r'[^\w\s]', '', text)  # Remove punctuation
+        text = re.sub(r'\s+', ' ', text).strip()  # Remove extra whitespaces
+        return text
+    
+    def extract_section_headings(self, resume_text):
+        headings = re.findall(r'\n\s*([A-Z][a-z\s]+):', resume_text)
+        return headings
+    
+    def check_date_formatting(self, resume_text):
+        date_pattern = r'(?:\b(?:\d{1,2}[-/]\d{1,2}[-/]\d{2}|\d{1,2}[-/]\d{1,2}[-/]\d{4}|\d{4}[-/]\d{1,2}[-/]\d{1,2})\b)'
+        date_formats = re.findall(date_pattern, resume_text)
+        return date_formats
+    
+    def analyze_soft_skills(self, resume_text):
+        words = word_tokenize(resume_text.lower())
+        filtered_words = [word for word in words if word not in self.stop_words and len(word) > 1]
+        
+        soft_skills = []
+        
+        for word in filtered_words:
+            if word in self.common_soft_skills:
+                soft_skills.append(word)
+                
+        soft_skills = list(set(soft_skills))
+        return soft_skills
+    
+    def calculate_similarity(self, resume_text, job_description):
+        vectorizer = TfidfVectorizer()
+        tfidf_matrix = vectorizer.fit_transform([resume_text, job_description])
+        similarity_score = cosine_similarity(tfidf_matrix[0, tfidf_matrix[1]])[0][0]
+        return similarity_score
+    
+    def generate_report(self, resume_text, job_description, contact_info, job_title):
+        preprocessed_resume_text = self.preprocess_text(resume_text)
+        preprocessed_job_description = self.preprocess_text(job_description)
+        
+        section_headings = self.extract_section_headinds(resume_text)
+        date_formatting = self.check_date_formatting(resume_text)
+        soft_skills = self.analyze_soft_skills(resume_text)
+        soft_skills = self.analyze_soft_skills(resume_text)
+        similarity_score = self.calculate_similarity(preprocessed_resume_text, preprocessed_job_description)
+        
+        report = {
+            "contact_info": contact_info,
+            "job_title": job_title,
+            "section_headings": section_headings,
+            "date_formatting": date_formatting,
+            "soft_skills": soft_skills,
+            "similarity_score": similarity_score
+        }
+        return report
+    
+if __name__ == "__main__":
+    resume_text = "Resume content goes here"
+    job_description = "Job description goes here"
+    contact_info = "Contact info goes here"
+    job_title = "Job title"
+    
+    analyze_resume = AnalyzeResume()
+    report = analyze_resume.generate(resume_text, job_description, contact_info, job_title)
+    print(report)
 
     def extract_text_from_pdf(self, file_path):
         try:
@@ -87,7 +149,7 @@ class AnalyzeResume:
         
         return matched_education
     
-    def extract_section_headinfs(self, resume_text):
+    def extract_section_headinds(self, resume_text):
         headings = re.findall(r'\n\s*([A-Z][a-z\s]+):', resume_text)
         return headings
     

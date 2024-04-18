@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../assests/styles/modals/jobdescriptionmodal.css';
 
-const JobDescriptionModal = ({ onClose, onAnalyze }) => {
+const JobDescriptionModal = ({ onClose, onAnalysis, onJobDescriptionChange }) => {
   const [jobDescription, setJobDescription] = useState('');
 
   const handleAnalyze = () => {
@@ -9,8 +9,8 @@ const JobDescriptionModal = ({ onClose, onAnalyze }) => {
       alert('Please enter job description.');
       return;
     }
-    onAnalyze(jobDescription);
-    onClose();
+    onJobDescriptionChange(jobDescription);
+    onAnalysis();
   };
 
   return (
@@ -27,7 +27,7 @@ const JobDescriptionModal = ({ onClose, onAnalyze }) => {
             value={jobDescription}
             onChange={(e) => setJobDescription(e.target.value)}
           />
-          <button className="analyze-btn" onClick={handleAnalyze}>Analyze Resume</button>
+          <button className="analyze-btn" onClick={handleAnalyze}>Generate Report</button>
         </div>
       </div>
     </div>

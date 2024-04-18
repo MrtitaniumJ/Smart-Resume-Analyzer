@@ -10,7 +10,9 @@ const Login = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
         try {
             const response = await fetch(`${API_URL}/login`, {
                 method: 'POST',
@@ -38,7 +40,7 @@ const Login = () => {
     }, [email, password]);
 
     return (
-        <div className='login-container'>
+        <form className='login-container' onSubmit={handleLogin}>
             <h2>Login</h2>
             <input
                 type="email"
@@ -53,8 +55,8 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
             />
             {error && <div className='error-message'>{error}</div>}
-            <button onClick={handleLogin}>Login</button>
-        </div>
+            <button type='submit'>Login</button>
+        </form>
     );
 };
 

@@ -1,38 +1,11 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import '../../assests/styles/modals/uploadmodals.css';
 
-const API_URL = 'http://localhost:3001/api'; // Update with your actual backend API URL
+const API_URL = 'http://localhost:3001/';
 
 const UploadModal = ({ onClose }) => {
   const [file, setFile] = useState(null);
-
-  const uploadResumeToDatabase = async (resumeFile) => {
-    try {
-      const formData = new FormData();
-      formData.append('resume', resumeFile);
-
-      const token = localStorage.getItem('token'); // Assuming you store the authentication token in localStorage
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-
-      const response = await fetch(`${API_URL}/upload`, {
-        method: 'POST',
-        body: formData,
-        headers,
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to upload resume to the database');
-      }
-
-      const data = await response.json();
-      return data.resumeId;
-    } catch (error) {
-      console.error('Error uploading resume:', error.message);
-      throw error;
-    }
-  };
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -45,9 +18,23 @@ const UploadModal = ({ onClose }) => {
         return;
       }
 
-      const resumeId = await uploadResumeToDatabase(file);
-      console.log('Resume uploaded successfully with ID:', resumeId);
+      const formData = new FormData();
+      formData.append('resume', file);
 
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('User not authenticated. Please log in.');
+        return;
+      }
+
+      const response = await axios.post(`${API_URL}/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log('Resume uploaded successfully:', response.data.resume);
       onClose();
     } catch (error) {
       console.error('Error uploading resume:', error.message);

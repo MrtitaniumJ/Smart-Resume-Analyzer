@@ -12,7 +12,9 @@ const Signup = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const handleSignup = async () => {
+    const handleSignup = async (e) => {
+        e.preventDefault();
+        
         try {
             if (!username || !email || !password || !confirmPassword) {
                 setError('All fields are required');
@@ -47,7 +49,7 @@ const Signup = () => {
 
 
     return (
-        <div className='signup-container'>
+        <form className='signup-container' onSubmit={handleSignup}>
             <h2>Sign Up</h2>
             <input
                 type="text"
@@ -74,8 +76,8 @@ const Signup = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
             />
             {error && <div className='error-message'>{error}</div>}
-            <button onClick={handleSignup}>Sign Up</button>
-        </div>
+            <button>Sign Up</button>
+        </form>
     );
 };
 

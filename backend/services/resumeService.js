@@ -19,7 +19,7 @@ class ResumeService {
         try {
             const dataBuffer = fs.readFileSync(filePath);
             const pdfText = await pdfParse(dataBuffer);
-            return pdfText.text;
+            return pdfText.text.toLowerCase();
         } catch (error) {
             console.error('Error extracting text from PDF:', error);
             throw new Error('Failed to extract text from PDF');
@@ -41,7 +41,10 @@ class ResumeService {
             const words = tokenizer.tokenize(text);
 
             const stopWords = new Set(natural.stopwords);
-            const filteredWords = words.filter(word => !stopWords.has(word.toLowerCase()));
+            const filteredWords = words.filter((word)=> {
+                word=word.toLowerCase();
+                !stopWords.has(word);
+            });
 
             const wordFreq = {};
             filteredWords.forEach(word => {
@@ -374,37 +377,47 @@ class ResumeService {
             console.error('Error calculating work experience score:', error);
             return 0;
         }
-    }    
-
-    calculateEducationScore(education) {
-        let educationScore = 0;
-
-        const highestEducation = Object.values(education).reduce((highest, edu) => {
-            if (!highest || highest.degree.toLowerCase() < edu.degree.toLowerCase()) {
-                return edu;
-            }
-            return highest;
-        }, null);
-
-        if (highestEducation) {
-            switch (highestEducation.degree.toLowerCase()) {
-                case "phd":
-                    educationScore = 1;
-                    break;
-                case "master's degree":
-                    educationScore = 0.8;
-                    break;
-                case "bachelor's degree":
-                    educationScore = 0.6;
-                    break;
-                default:
-                    educationScore = 0.4;
-                    break;
-            }
-        }
-
-        return educationScore;
     }
+    
+    calculateEducationScore(education) {
+        try {
+            if (!education) {
+                console.error('Education data is missing or undefined');
+                return 0;
+            }
+    
+            let educationScore = 0;
+    
+            const highestEducation = Object.values(education).reduce((highest, edu) => {
+                if (!highest || highest.degree.toLowerCase() < edu.degree.toLowerCase()) {
+                    return edu;
+                }
+                return highest;
+            }, null);
+    
+            if (highestEducation) {
+                switch (highestEducation.degree.toLowerCase()) {
+                    case "phd":
+                        educationScore = 1;
+                        break;
+                    case "master's degree":
+                        educationScore = 0.8;
+                        break;
+                    case "bachelor's degree":
+                        educationScore = 0.6;
+                        break;
+                    default:
+                        educationScore = 0.4;
+                        break;
+                }
+            }
+            
+            return educationScore;
+        } catch (error) {
+            console.error('Error calculating education score:', error);
+            return 0;
+        }
+    }    
 
     getEducationScore(degree) {
         if (degree.toLowerCase().includes("phd")) {

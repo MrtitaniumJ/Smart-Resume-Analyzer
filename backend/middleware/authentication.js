@@ -20,6 +20,7 @@ exports.authenticateUser = async (req, res, next) => {
         }
 
         req.userId = decoded.userId;
+        req.user = user;
         next();
     } catch (error) {
         console.error('Error authenticating user: ', error);

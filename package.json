@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "prop-types": "^15.8.1",
+    "react-scroll": "^1.9.0",
     "spacy": "^0.0.4"
   }
 }
