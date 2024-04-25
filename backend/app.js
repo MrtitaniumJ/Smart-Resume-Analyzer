@@ -37,6 +37,9 @@ app.use(routes);
 app.use(validationError);
 app.use(globalErrorHandler);
 
+//profile
+app.use('/profile-images', express.static('profile-image'));
+
 // Error handling for uncaught exceptions
 process.on('uncaughtException', (error) => {
     console.log('Uncaught Exception: ', error);

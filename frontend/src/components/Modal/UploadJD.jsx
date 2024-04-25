@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React, { useState } from "react";
 
-export class UploadJD extends Component {
-  render() {
-    return (
-      <div>
-        
-      </div>
-    )
-  }
+const UploadJD = ({ resume, onClose, onAnalyze }) => {
+  const [jobDescription, setJobDescription] = useState('');
+
+  const handleAnalyze = () => {
+    onAnalyze(jobDescription);
+  };
+
+  return (
+    <div clas></div>
+  )
 }
-
-export default UploadJD

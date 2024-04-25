@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, animateScroll as scroll } from 'react-scroll';
-import UserProfileModal from './Modal/UserProfileModal';
 
 function Navbar({ authService }) {
   Navbar.propTypes = {
@@ -16,7 +15,6 @@ function Navbar({ authService }) {
   const [userName, setUserName] = useState('');
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [userEmail, setUserEmail] = useState('');
-  const [showProfileModal, setShowProfileModal] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -47,13 +45,12 @@ function Navbar({ authService }) {
     window.location.href = '/signup';
   };
 
-  const toggleDropdown = () => {
-    setIsDropdownVisible(!isDropdownVisible);
+  const handleProfileClick = () => {
+    window.location.href = '/profile';
   }
 
-  const openProfileModal = () => {
-    setShowProfileModal(true);
-    setIsDropdownVisible(false);
+  const toggleDropdown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
   }
 
   // fetch user details when dropdown is opened
@@ -132,7 +129,7 @@ function Navbar({ authService }) {
                     <div className='items-center justify-between md:flex md:w-auto md:order-1' id='navbar-cta'>
                       <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 py-2" aria-labelledby="user-menu-button">
                         <li>
-                          <button onClick={openProfileModal} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white focus:outline-none">
+                          <button onClick={handleProfileClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white focus:outline-none">
                             Profile
                           </button>
                         </li>
@@ -155,13 +152,6 @@ function Navbar({ authService }) {
           </div>
         </div>
       </div>
-      {showProfileModal && (
-        <UserProfileModal
-          username={userName}
-          userEmail={userEmail}
-          onClose={() => setShowProfileModal(false)}
-        />
-      )}
     </nav>
   );
 }
