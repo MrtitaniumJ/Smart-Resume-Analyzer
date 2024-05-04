@@ -22,25 +22,52 @@ function Analyse() {
       if (!selectedFile) {
         throw new Error('Please upload a file before analyzing.');
       }
+
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('User not authenticated');
+      }
+
+      const formData = new FormData();
+      formData.append('resume', selectedFile);
+      formData.append('jobDescription', jobDescription);
+
+      const responseUpload = await fetch(`${API_URL}/upload`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const responseDataUpload = await responseUpload.json();
+      if (!responseUpload.ok) {
+        throw new Error(responseDataUpload.error || 'Failed to upload resume.');
+      }
+
+      // extract resumeId from the response
+      const resumeId = responseDataUpload.resume._id;
       
-      const response = await fetch(`${API_URL}/${selectedFile._id}/analyze`, {
+      const responseAnalysis = await fetch(`${API_URL}/${resumeId}/analyze`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({ jobDescription }),
       });
 
-      if (!response.ok) {
+      const data = await responseAnalysis.json();
+
+      if (!responseAnalysis.ok) {
         throw new Error(data.message || 'Failed to analyze resume.');
       }
 
-      const data = await response.json();
       if (!data || data.error) {
         throw new Error(data.error || 'Invalid response from server');
       }
 
-      console.log(data); //handling the response data
+      console.log(data);
     } catch (error) {
       console.error('Error analyzing resume: ', error);
       throw new Error(error.message || 'Invalid response');

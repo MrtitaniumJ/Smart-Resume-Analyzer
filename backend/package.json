@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/aiplatform": "^3.19.1",
+    "@google/generative-ai": "^0.8.0",
     "@tensorflow/tfjs": "^4.17.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -23,11 +25,14 @@
     "mongoose": "^8.2.1",
     "multer": "^1.4.5-lts.1",
     "natural": "^6.12.0",
+    "nltk": "^0.0.1",
     "node-nlp": "^4.27.0",
     "nodemon": "^3.1.0",
+    "openai": "^4.38.5",
     "path": "^0.12.7",
     "pdf-parse": "^1.1.1",
     "pdfjs-dist": "^4.0.379",
+    "prop-types": "^15.8.1",
     "spacy": "^0.0.4",
     "stopwords": "^0.0.9",
     "tfjs": "^0.6.0"

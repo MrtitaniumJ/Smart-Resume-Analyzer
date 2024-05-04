@@ -1,14 +1,16 @@
 const Resume = require('../models/resume');
 const fs = require('fs');
 const path = require('path');
-const { analyzeResume } = require('../utils/resumeAnalyzer');
 const pdfParse = require('pdf-parse');
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
 const { NlpManager } = require('node-nlp');
-const resume = require('../models/resume');
+const { PythonShell } = require('python-shell');
 
 const uploadDir = path.join(__dirname, '..', 'uploads');
+
+const scriptPath = path.join(__dirname, '..', 'utils', 'resume_analyzer.py');
+console.log('script path:', scriptPath);
 
 class ResumeService {
     constructor() {
@@ -22,7 +24,7 @@ class ResumeService {
             return pdfText.text.toLowerCase();
         } catch (error) {
             console.error('Error extracting text from PDF:', error);
-            throw new Error('Failed to extract text from PDF');
+            throw new Error(error.message || 'Failed to extract text from PDF');
         }
     }
 
@@ -41,10 +43,7 @@ class ResumeService {
             const words = tokenizer.tokenize(text);
 
             const stopWords = new Set(natural.stopwords);
-            const filteredWords = words.filter((word)=> {
-                word=word.toLowerCase();
-                !stopWords.has(word);
-            });
+            const filteredWords = words.filter(word => !stopWords.has(word.toLowerCase()));
 
             const wordFreq = {};
             filteredWords.forEach(word => {
@@ -62,7 +61,7 @@ class ResumeService {
             return keywords;
         } catch (error) {
             console.error('Error extracting keywords:', error);
-            throw new Error('Failed to extract keywords');
+            throw new Error(error.message || 'Failed to extract keywords');
         }
     }
 
@@ -86,20 +85,48 @@ class ResumeService {
         const experienceMatches = resumeText.match(experiencePattern);
 
         let educationDetails = {};
-        if (educationMatches) {
+        if (educationMatches && educationMatches.length > 0) {
             educationMatches.forEach((eduMatch, index) => {
                 const educationInfo = this.extractEducationInfo(eduMatch);
                 educationDetails[`education${index + 1}`] = educationInfo;
             });
+        } else {
+            educationDetails = "Invalid or missing degree data in education";
         }
 
         let workExperience = {};
-        if (experienceMatches) {
+        if (experienceMatches && experienceMatches.length > 0) {
             const experienceInfo = this.extractExperienceInfo(experienceMatches[0]);
             workExperience.totalWorkExperience = experienceInfo;
+        } else {
+            workExperience = "Invalid or missing work experience data";
         }
 
         return { education: educationDetails, workExperience: workExperience };
+    }
+
+    analyzeEducation(resumeText) {
+        try {
+            const educationPattern = /(?<=Education|Qualifications|Degree)([\s\S]*?)(?=(Experience|Work|Skills|Projects|$))(?!.*(?:Experience|Work|Skills|Projects))/gis
+            const educationMatches = resumeText.match(educationPattern);
+
+            const educationDetails = [];
+
+            if (!educationMatches || educationMatches.length === 0) {
+                throw new Error('Invalid or missing education data');
+            }
+
+            educationMatches.forEach((eduMatch, index) => {
+                console.log('Education match: ', eduMatch);
+                const educationInfo = this.extractEducationInfo(eduMatch);
+                educationDetails.push(educationInfo);
+            });
+
+            return educationDetails;
+        } catch (error) {
+            console.error('Error analyzing education: ', error);
+            throw new Error(error.message || 'Failed to analyze education');
+        }
     }
 
     extractEducationInfo(educationText) {
@@ -118,35 +145,43 @@ class ResumeService {
         return { degree, school, passingYear: year };
     }
 
-    extractExperienceInfo(experienceText) {
-        const yearPattern = /\b\d+\s*(?:years?|yrs?)\b/i;
-        const monthPattern = /\b\d+\s*(?:months?)\b/i;
+    extractExperienceInfo(resumeText) {
+        const experienceInfo = [];
 
-        let totalExperience = "Unknown";
+        // Define patterns to match job titles, company names, and durations
+        const experiencePattern = /(?<=\b(?:intern|trainee|vice\s+president|full\s+stack\s+developer|developer|engineer|manager|president|voltunteer|coordinator|coordinated|led|contributed|participated|completed|certified|solved|presented|organized|managed|facilitated|provided|fostered|built|developed|integrated|implemented|gained|prepared|tackled|demonstrated|trained|guided|coordinated)\b\s+)(.*?)(?=\b(?:june|july|may|jan|october|september))/gis;
 
-        const yearMatch = experienceText.match(yearPattern);
-        const monthMatch = experienceText.match(monthPattern);
+        // Extract experience entries using the combined pattern
+        const experienceEntries = resumeText.match(experiencePattern);
 
-        if (yearMatch && monthMatch) {
-            const years = parseInt(yearMatch[0]);
-            const months = parseInt(monthMatch[0]);
-            totalExperience = `${years} years and ${months} months`;
-        } else if (yearMatch) {
-            const years = parseInt(yearMatch[0]);
-            totalExperience = `${years} years`;
-        } else if (monthMatch) {
-            const months = parseInt(monthMatch[0]);
-            totalExperience = `${months} months`;
+        // if any of the required data is missing return null
+        if (!experienceEntries) {
+            return null;
         }
 
-        return totalExperience;
+        // Iterate over the matched arrays to create objects for each experience entry
+        for (const entry of experienceEntries) {
+            // Split the entry to extract job title, company, and duration
+            const [jobTitle, company, duration] = entry.split(/\s+/);
+
+            // Push the extracted information into the experienceInfo array
+            experienceInfo.push({
+                jobTitle: jobTitle.trim(),
+                company: company.trim(),
+                duration: duration.trim()
+            });
+        }
+
+        return experienceInfo;
     }
 
     extractMatches(text, regex) {
         const matches = [];
         let match;
         while ((match = regex.exec(text)) !== null) {
-            matches.push(match[1].trim());
+            if (match[1]) {
+                matches.push(match[1].trim());
+            }
         }
         return matches;
     }
@@ -202,7 +237,7 @@ class ResumeService {
             return semanticAnalysis;
         } catch (error) {
             console.error('Error performing semantic analysis:', error);
-            throw new Error('Failed to perform semantic analysis');
+            throw new Error(error.message || 'Failed to perform semantic analysis');
         }
     }
 
@@ -216,7 +251,7 @@ class ResumeService {
             return report;
         } catch (error) {
             console.error('Error generating report:', error);
-            throw new Error('Failed to generate report');
+            throw new Error(error.message || 'Failed to generate report');
         }
     }
 
@@ -238,7 +273,7 @@ class ResumeService {
             return resume;
         } catch (error) {
             console.error('Error uploading resume:', error);
-            throw new Error('Failed to upload resume to the database');
+            throw new Error(error.message || 'Failed to upload resume to the database');
         }
     }
 
@@ -250,85 +285,46 @@ class ResumeService {
             }
 
             const resumeContent = resume.content;
-            const resumeKeywords = this.extractKeywords(resumeContent);
-            const jobKeywords = this.extractKeywords(jobDescription);
+            const resumeContentJSON = JSON.stringify(resumeContent);
 
-            const similarityScore = this.calculateSimilarity(resumeKeywords, jobKeywords);
-            const skillAssessment = this.assessSkills(resumeKeywords, jobKeywords);
-            const experienceAndEducationAnalysis = this.analyzeExperienceAndEducation(resumeContent);
-            const semanticAnalysis = await this.performSemanticAnalysis(resumeContent, jobDescription);
-
-            const workExperience = experienceAndEducationAnalysis.workExperience || {};
-            const workExperienceScore = this.calculateWorkExperienceScore(workExperience);
-
-            const analysisResults = {
-                contactInfo: resume.contactInfo,
-                jobTitle: resume.jobTitle,
-                education: experienceAndEducationAnalysis.education,
-                workExperience: experienceAndEducationAnalysis.workExperience,
-                skills: {
-                    hardSkills: {
-                        matched: skillAssessment.matchedSkills,
-                        unmatched: skillAssessment.unmatchedSkills
-                    },
-                    softSkills: {
-                        matched: this.extractSoftSkills(resumeContent),
-                        unmatched: this.extractSoftSkills(jobDescription)
-                    }
-                },
-                semanticAnalysis,
-                scoring: {
-                    similarityScore: {
-                        weightPerSkill: {
-                            High: 0.7,
-                            Medium: 0.3,
-                            Low: 0.1
-                        },
-                        calculation: {
-                            matchedSkillsWeight: {
-                                High: 2,
-                                Medium: 0.3
-                            },
-                            totalJobDescriptionWeight: 3,
-                            score: similarityScore
-                        }
-                    },
-                    overallScore: {
-                        weights: {
-                            similarityScore: 0.6,
-                            workExperience: 0.2,
-                            education: 0.1,
-                            softSkills: 0.1
-                        },
-                        calculation: {
-                            similarityScore,
-                            workExperienceScore: this.calculateWorkExperienceScore(experienceAndEducationAnalysis.workExperience),
-                            educationScore: this.calculateEducationScore(experienceAndEducationAnalysis.education),
-                            // softSkillsScore: this.calculateSkillsScore(
-                            //     this.extractSoftSkills(resumeContent),
-                            //     this.extractSoftSkills(jobDescription)
-                            // )
-                        }
-                    },
-                    //suggestedCourses: this.generateSuggestedCourses(semanticAnalysis.jobDescriptionConcepts)
-                }
+            // options for python shell
+            const options = {
+                mode: 'json',
+                pythonPath: 'python', // Python executable path
+                pythonOptions: ['-u'],
+                scriptPath: path.dirname(scriptPath),
+                args: [resumeContentJSON, jobDescription]
             };
 
-            const analysisReport = this.generateReport(analysisResults);
+            PythonShell.run(path.basename(scriptPath), options, (error, results) => {
+                if (error) {
+                    console.error('Error analyzing resume: ', error);
+                    throw new Error(error.message || 'Failed to analyze resume');
+                }
 
-            resume.analyzed = true;
-            resume.analysisReport = analysisReport;
-            await resume.save();
+                try {
+                    const analysisResults = JSON.parse(results[0]);
+                    const analysisReport = this.generateReport(analysisResults);
 
-            return analysisReport;
+                    resume.analyzed = true;
+                    resume.analysisReport = analysisReport;
+                    resume.save();
+
+                    console.log('analysis report saved: ', analysisReport);
+                    return analysisReport;
+                } catch (error) {
+                    console.error('Error parsing analysis results: ', error);
+                    throw new Error(error.message || 'Failed to parse analysis results');
+                }
+            });
         } catch (error) {
             console.error('Error analyzing resume:', error);
-            throw new Error('Failed to analyze resume');
+            throw new Error(error.message || 'Failed to analyze resume');
         }
     }
 
     extractSoftSkills(text) {
-        const softSkills = ["Leadership", "Teamwork", "Critical Thinking", "Logic Building"];
+        const softSkills = ["leadership", "teamwork", "critical thinking", "logic building"];
         const extractedSkills = [];
 
         for (const skill of softSkills) {
@@ -343,81 +339,85 @@ class ResumeService {
 
     calculateWorkExperienceScore(workExperience) {
         try {
-            if (!workExperience || !workExperience.totalWorkExperience) {
-                console.error('Work experience data is missing or undefined');
+            if (!workExperience || !workExperience.totalWorkExperience || typeof workExperience.totalWorkExperience !== 'string') {
+                console.error('Invalid or missing work experience data');
                 return 0;
             }
-    
+
             const experienceText = workExperience.totalWorkExperience.toLowerCase();
             const yearPattern = /\b\d+\s*(?:years?|yrs?)\b/i;
             const monthPattern = /\b\d+\s*(?:months?)\b/i;
+
             let totalExperience = 0;
-    
+
             const yearMatch = experienceText.match(yearPattern);
             const monthMatch = experienceText.match(monthPattern);
-    
+
             if (yearMatch) {
                 totalExperience += parseInt(yearMatch[0]);
             }
             if (monthMatch) {
                 totalExperience += parseInt(monthMatch[0]) / 12;
             }
-    
+
             const scoringRanges = [
                 { min: 0, max: 1, score: 0.1 },
                 { min: 1, max: 3, score: 0.5 },
                 { min: 3, max: 5, score: 0.8 },
                 { min: 5, max: Infinity, score: 1 }
             ];
-    
+
             const matchingRange = scoringRanges.find(range => totalExperience >= range.min && totalExperience < range.max);
-    
+
             return matchingRange ? matchingRange.score : 0;
         } catch (error) {
             console.error('Error calculating work experience score:', error);
-            return 0;
+            throw new Error('Failed to calculate work experience score');
         }
     }
-    
+
     calculateEducationScore(education) {
         try {
-            if (!education) {
+            if (!education || Object.keys(education).length === 0) {
                 console.error('Education data is missing or undefined');
                 return 0;
             }
-    
-            let educationScore = 0;
-    
-            const highestEducation = Object.values(education).reduce((highest, edu) => {
-                if (!highest || highest.degree.toLowerCase() < edu.degree.toLowerCase()) {
-                    return edu;
+
+            let highestDegree = '';
+            for (const edu of Object.values(education)) {
+                if (!edu || !edu.degree || typeof edu.degree !== 'string') {
+                    console.error('Invalid or missing degree data in education');
+                    return 0;
                 }
-                return highest;
-            }, null);
-    
-            if (highestEducation) {
-                switch (highestEducation.degree.toLowerCase()) {
-                    case "phd":
-                        educationScore = 1;
-                        break;
-                    case "master's degree":
-                        educationScore = 0.8;
-                        break;
-                    case "bachelor's degree":
-                        educationScore = 0.6;
-                        break;
-                    default:
-                        educationScore = 0.4;
-                        break;
+
+                if (!highestDegree || edu.degree.toLowerCase() > highestDegree.toLowerCase()) {
+                    highestDegree = edu.degree.toLowerCase();
                 }
             }
-            
+
+            let educationScore = 0;
+
+            switch (highestDegree) {
+                case 'phd':
+                    educationScore = 1;
+                    break;
+                case "master's degree":
+                    educationScore = 0.8;
+                    break;
+                case "bachelor's degree":
+                    educationScore = 0.6;
+                    break;
+                default:
+                    educationScore = 0.4;
+                    break;
+            }
+
             return educationScore;
         } catch (error) {
             console.error('Error calculating education score:', error);
-            return 0;
+            throw new Error('Failed to calculate education score');
         }
-    }    
+    }
 
     getEducationScore(degree) {
         if (degree.toLowerCase().includes("phd")) {
@@ -437,7 +437,7 @@ class ResumeService {
             return resume;
         } catch (error) {
             console.error('Error fetching resume:', error);
-            throw new Error('Failed to fetch resume');
+            throw new Error(error.message || 'Failed to fetch resume');
         }
     }
 
@@ -447,7 +447,7 @@ class ResumeService {
             return resume;
         } catch (error) {
             console.error('Error fetching resume: ', error);
-            throw new Error('Failed to fetch resume');
+            throw new Error(error.message || 'Failed to fetch resume');
         }
     }
 
@@ -456,14 +456,14 @@ class ResumeService {
             if (!Mongoose.Types.ObjectId.isValid(resumeId)) {
                 throw new Error('Invalid resumeId');
             }
-            const updatedResume = await Resume.findByIdAndDelete(resumeId, { $set: { analysisReport } }, { new: true });
+            const updatedResume = await Resume.findByIdAndUpdate(resumeId, { $set: { analysisReport } }, { new: true });
             if (!updatedResume) {
                 throw new Error('Resume not found');
             }
             return updatedResume;
         } catch (error) {
             console.error('Error updating analysis report:', error);
-            throw new Error('Failed to update analysis report');
+            throw new Error(error.message || 'Failed to update analysis report');
         }
     }
 
@@ -475,7 +475,7 @@ class ResumeService {
             }
         } catch (error) {
             console.error('Error deleting resume:', error);
-            throw new Error('Failed to delete resume');
+            throw new Error(error.message || 'Failed to delete resume');
         }
     }
 }

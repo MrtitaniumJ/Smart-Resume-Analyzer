@@ -1,5 +1,6 @@
 {
     "message": "Resume analysis completed",
+    "resumeScore": "95",
     "analysis": {
         "contactInfo": {
             "name": "Jatin Sharma",

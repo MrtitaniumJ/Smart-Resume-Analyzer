@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import SuccessPopup from './components/SuccessPopup';
 import ProfileSection from './components/ProfileSection';
+import AnalysisPage from './pages/AnalysisPage';
 
 const API_URL = 'http://localhost:3001'
 
@@ -106,6 +107,7 @@ function App() {
         <Route exact path='/login' element={<Login setShowSuccessPopup={setShowSuccessPopup} />} />
         <Route exact path='/signup' element={<Signup setShowSuccessPopup={setShowSuccessPopup} />} />
         <Route exact path='/profile' element={<ProfileSection userData={userData} error={error} />} />
+        <Route exact path='/analysis' element={<AnalysisPage />} />
       </Routes>
       </div>
     </Router>

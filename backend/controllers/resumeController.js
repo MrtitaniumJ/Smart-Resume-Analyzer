@@ -1,6 +1,5 @@
 const Resume = require('../models/resume');
 const ResumeService = require('../services/resumeService');
-const { analyzeResume } = require('../services/resumeService');
 
 exports.uploadResume = async (req, res) => {
     try {
@@ -30,16 +29,16 @@ exports.analyzeResume = async (req, res) => {
         const jobDescription = req.body.jobDescription;
 
         const analysisResult = await ResumeService.analyzeResume(resumeId, jobDescription);
-        const report = ResumeService.generateReport(analysisResult);
 
-        res.status(200).json({ message: 'Resume report generated', data: report });
-        //res.status(200).json({ message: 'Resume analysis completed', analysis: analysisResult });
+        // Send the analysis data in the response
+        res.status(200).json(analysisResult);
     } catch (error) {
         console.error('Error analyzing resume:', error);
         if (error.message === 'Resume not found') {
-            res.status(404).json({ error: 'Resume not found' });
+            res.status(404).json({ error: error.message || 'Resume not found' });
         } else {
-            res.status(500).json({ error: 'Failed to analyze resume' });
+            res.status(500).json({ error: error.message || 'Failed to analyze resume' });
         }
     }
 };
+
