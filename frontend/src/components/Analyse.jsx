@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import ResumeModal from './Modal/ResumeModal';
 
 const API_URL = 'http://localhost:3001';
 
 function Analyse() {
-  const history = useHistory();
   const [selectedFile, setSelectedFile] = useState(null);
   const [flashMessage, setFlashMessage] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [resumeId, setResumeId] = useState(null);
-  const [analysisData, setAnalysisData] = useState('');
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -107,11 +104,11 @@ function Analyse() {
   
       console.log(data);
 
-      setAnalysisData(data);
-
       setFlashMessage(data.message);
 
-      history.push(`${API_URL}/${resumeId}/analyze`);
+      const analysisUrl = `${window.location.origin}/${resumeId}/analyze`;
+
+      window.location.href = analysisUrl;
     } catch (error) {
       console.error('Error analyzing resume: ', error);
       setFlashMessage(error.message || 'Failed to analyze resume. Please try again later.');
@@ -158,6 +155,7 @@ function Analyse() {
           handleAnalyzeClick={handleAnalyzeClick}
         />
       )}
+
     </section>
   );
 }

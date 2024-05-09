@@ -107,7 +107,7 @@ function App() {
         <Route exact path='/login' element={<Login setShowSuccessPopup={setShowSuccessPopup} />} />
         <Route exact path='/signup' element={<Signup setShowSuccessPopup={setShowSuccessPopup} />} />
         <Route exact path='/profile' element={<ProfileSection userData={userData} error={error} />} />
-        <Route exact path='/analysis' element={<AnalysisPage />} />
+        <Route exact path='/:resumeId/analyze' element={<AnalysisPage />} />
       </Routes>
       </div>
     </Router>
