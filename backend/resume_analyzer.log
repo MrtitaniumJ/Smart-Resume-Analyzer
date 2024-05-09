@@ -1,58 +1,75 @@
-2024-05-09 20:39:25,535 - DEBUG - Resume content: 
+2024-05-09 22:44:12,861 - DEBUG - Resume content: 
 
-Jatin Sharma 
-+916367807635 | jkjatinsharma72@gmail.com | LinkedIn | Portfolio 
-Education 
-GLA University                                                                                                                   Mathura, Uttar Pradesh 
-Bachelor of Technology in Computer Science                                                                               Sep 2021 – Jun 2025 
-Skills 
-Technical Skills: Java, Python, C, SQL, JavaScript, HTML/CSS, ReactJS, NodeJS, ExpressJS, MongoDB, Flask, 
-Django, Flutter, Git/Github, Firebase, Clerk, MySQL, ThreeJS, pandas, NumPy, Matplotlib, BeautifulSoup, NLP, 
-tensorflow, spaCy, ChartJS. D3.js, langchain, OpenAI 
-Professional Skills: Leadership, Teamwork, Team Mangement, Problem Solving, Critical Thinking 
-Experience 
-Full Stack Developer Intern                                                                                               June 2023 - July 2023 
-IGOKO Avionics Pvt Ltd                                                                                                                      New Delhi, India 
-• Contributed in various B2B and B2G projects using HTML, CSS, JavaScript, Django, ReactJS, NodeJS, 
-ExpressJS, and MongoDB. 
-• Collaborated with senior developers to design and implement scalable solutions. 
+  JATIN SHARMA 
+         Bharatpur \u25cf Rajasthan, India 
+         jatin.sharma1_cs21@gla.ac.in \u25cf +91 6367807635 \u25cf LinkedIn 
+https://jatin-sharma-portfolio-v72o.vercel.app/ 
+EDUCATION  
+ 
+Bachelor of Technology in Computer Science, GLA University, Mathura (70.5%)       June 2025 
+   Intermediate, Ascent Education Sr. Sec. School, Bharatpur (66.40%)        May 2021 
+   High School, Ascent Education Sr. Sec. School, Bharatpur (82%)        May 2019 
+ 
+INTERNSHIP/TRAINING EXPERIENCE __________________________________________________________________ 
+ 
+IGOKO Avionics Pvt. Ltd, Delhi                                                                                                                  June 2023 – Aug 2023 
+Web Developer Intern 
+• Developed sample templates for company’s internal project using HTML, CSS and javascript. 
+• Worked on companies live projects using ReactJS, NodeJS, ExpressJS, MongoDB, Django, and PHP. 
 • Participated in the requirement gathering and prototype building process of software development. 
-Trainee                                                                                                                                    June 2023 – July 2023 
-Coding Blocks                                                                                                                         GLA University, Mathura 
-• Completed a comprehensive training program in DSA, solidifying the foundation for efficient problem-
-solving. 
-• Gained expertise in competitive programming techniques, preparing for coding challenges and contests. 
-• successfully tackled over 200 problems on LeetCode, demonstrating strong problem-solving abilities and 
-algorithmic knowledge. 
-Vice President                                                                                                                            May 2022 - Present 
-GLAU CodeChef Chapter – CodeBusters                                                                                Mathura, Uttar Pradesh 
-• Led the chapter in achieving significant growth and recognition within the university. 
-• Organized and managed multiple workshops, tech fests, and coding contests. 
-• Facilitated collaborations between students, faculty, and industry professionals. 
-• Provided mentorship and guidance to members, fostering skill development. 
-Projects 
-ResuFit | ReactJS, ExpressJS, MongoDB, NodeJS, NLP, spaCy                                      March 2024 – Present 
-• Developed a Smart Resume Analyser using ReactJS, ExpressJS, NodeJS, MongoDB. 
-• Implemented node-nlp and spaCy libraries for natural language processing and named entity recognition. 
-• Enables users to upload resumes and job descriptions for comprehensive analysis. 
-• Generates detailed reports comparing resume with job description, highlighting matching and missing 
-skills. 
-• Provides recommendations for job matches and suggests skill improvement courses and contents. 
-Insight-360 | ReactJS, ExpressJS, NodeJs, MongoDB, Langchain, OpenAI                               Apr 2024 - Present 
-• Created a comprehensive E-commerce Analytics Dashboard integrating ReactJS, ExpressJS, MongoDB, 
-NodeJS. 
-• Implemented REST API for secure communication between frontend and backend. 
-• Designed interactive D3.js visualizations for user-friendly data presentation in the form of heatmaps, 
-charts and geospatial visualization. 
-• Features include sales performance metrics, customer segmentation, and product analysis. 
-• Implemented cart abandonment recovery and customer retention strategies. 
-• Analysed customer feedback to enhance satisfaction and product improvements. 
-Achievements 
-• 5 Stars in Java, Python and C on Hackerrank. 
-• Certified in Java, Python and Problem Solving by Hackerrank. 
-• Solved 200+ questions on Leetcode. 
-Extra/Co-Curricular Activities 
-• Coordinated coding workshop (Codingo) and technical fest (Catalyst) at CodeBusters GLA University 
-(Jan 2022, Nov 2022) 
-• Participated in HacktoberFest (October 2022) and SIH (September 2023) 
-2024-05-09 20:39:25,535 - DEBUG - Job description: undefined
+ 
+Job Oriented Value-Added Course, GLA University, Mathura                                                                June 2023 – July 2023 
+  Trainee 
+• Learnt fundamentals of DSA and Competitive Programming. 
+• Post completing the training, completed 100+ questions on Leetcode and participated in coding contests. 
+ 
+ 
+PROJECTS  
+ 
+Suchna: News Application | Java, XML, News API                                                                                                           June 2022
+                                                                                                                       
+• Built an android application fetches news from News API. It features a scroller view for news categories and opens news 
+articles in a web view within the app when clicked. 
+• Created using XML, News API, and Java. 
+• MrtitaniumJ/Suchna (github.com) 
+ 
+Startup Website | HTML, CSS, Javascript, Django                                                                                                             June 2023 
+                                                                                                                       
+• Built a web-application which is suitable to display a startup’s details. Built an admin panel also. 
+• Created using HTML, CSS, Javascript, Django. 
+• MrtitaniumJ/startup2-1.0.0 (github.com) 
+ 
+  Inventory Management | React, ExpressJS, MongoDB, NodeJs, REST API                                                                         Nov 2023 
+• Built a comprehensive inventory management system developed using the MERN stack. 
+• Leveraging   React,   Express,   and   MongoDB,   this   platform   offers   seamless   inventory   tracking   and   management 
+functionalities. 
+• MrtitaniumJ/Inventory-management (github.com) 
+  
+  GeM Price Comparison Tool | React, Flask, Python, MongoDB, ExpressJs, NodeJs                                                            Sep 2023 
+• Developed a full stack web-application using with Flask serving a REST API with React as the frontend. 
+• Implemented web-scrapping technologies using Python libraries like BeautifulSoup. 
+ 
+SKILLS  
+  Languages: Java, Python, C, SQL, JavaScript, HTML/CSS, Dart 
+  Professional: Leadership, Impactful Communication, Teamwork, Team Management, Critical Thinking 
+  Frameworks: React, Node.js, Flask, WordPress, Flutter 
+
+  Developer Tools: Git, Google Cloud Platform, Firebase, VS Code, PyCharm IntelliJ, IntelliJ Idea, Android Studio, Dev C++ 
+  Libraries: pandas, NumPy, Matplotlib, BeautifulSoup 
+ 
+ 
+EXTRA/CO-CURRICULAR ACTIVITIES  
+ 
+• Coordinated CodinGO (Coding Workshop, CodeBusters GLAU, January, 2022).  
+• Coordinated Catalyst (Technical Fest, CodeBusters GLAU, November, 2022)                                                                                                                                                                                           
+• Participated in Hacktoberfest (Technical Event, Hacktoberfest, October, 2022). 
+• Participated in SIH (24 hours hackathon, Government of India, September, 2023). 
+• Certified in Problem-Solving by Hackerrank. 
+• Certified in Python by Hackerrank. 
+• Certified in Java by Hackerrank. 
+• Silver Badge of Algorithm-1 on Leetcode. 
+ 
+ DECLARATION________________________________________________________________________________________   
+ 
+   I hereby declare that all the above-mentioned information is true and correct to the best of my knowledge. 
+2024-05-09 22:44:12,861 - DEBUG - Job description: undefined
