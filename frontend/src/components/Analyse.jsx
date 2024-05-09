@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import ResumeModal from './Modal/ResumeModal';
 
 const API_URL = 'http://localhost:3001';
 
 function Analyse() {
+  const history = useHistory();
   const [selectedFile, setSelectedFile] = useState(null);
   const [flashMessage, setFlashMessage] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
+  const [resumeId, setResumeId] = useState(null);
+  const [analysisData, setAnalysisData] = useState('');
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -15,63 +20,6 @@ function Analyse() {
 
   const handleDescriptionChange = (event) => {
     setJobDescription(event.target.value);
-  }
-
-  const handleAnalyzeClick = async () => {
-    try {
-      if (!selectedFile) {
-        throw new Error('Please upload a file before analyzing.');
-      }
-
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('User not authenticated');
-      }
-
-      const formData = new FormData();
-      formData.append('resume', selectedFile);
-      formData.append('jobDescription', jobDescription);
-
-      const responseUpload = await fetch(`${API_URL}/upload`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      const responseDataUpload = await responseUpload.json();
-      if (!responseUpload.ok) {
-        throw new Error(responseDataUpload.error || 'Failed to upload resume.');
-      }
-
-      // extract resumeId from the response
-      const resumeId = responseDataUpload.resume._id;
-      
-      const responseAnalysis = await fetch(`${API_URL}/${resumeId}/analyze`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({ jobDescription }),
-      });
-
-      const data = await responseAnalysis.json();
-
-      if (!responseAnalysis.ok) {
-        throw new Error(data.message || 'Failed to analyze resume.');
-      }
-
-      if (!data || data.error) {
-        throw new Error(data.error || 'Invalid response from server');
-      }
-
-      console.log(data);
-    } catch (error) {
-      console.error('Error analyzing resume: ', error);
-      throw new Error(error.message || 'Invalid response');
-    }
   };
 
   const uploadResume = async () => {
@@ -80,14 +28,14 @@ function Analyse() {
       if (!token) {
         throw new Error('User not authenticated');
       }
-    
+  
       if (!selectedFile) {
         throw new Error('Please select a file to upload.');
       }
-    
+  
       const formData = new FormData();
       formData.append('resume', selectedFile);
-    
+  
       const response = await fetch(`${API_URL}/upload`, {
         method: 'POST',
         headers: {
@@ -95,31 +43,78 @@ function Analyse() {
         },
         body: formData,
       });
-    
+  
       const responseData = await response.json();
-      console.log(responseData);
-    
+  
+      console.log('Response Data:', responseData);
+      console.log('Response Status:', response.status);
+  
       if (!response.ok) {
         throw new Error(responseData.message || 'Failed to upload resume.');
       }
-    
-      if (!responseData.success) {
-        throw new Error(responseData.message || 'An error occurred while uploading the resume.');
+
+      if (!responseData.resume || !responseData.resume._id) {
+        throw new Error('Resume ID not found in the server response');
       }
-    
-      // Update the selectedFile state with the response data
+  
+      setResumeId(responseData.resume._id);
+  
       setSelectedFile(responseData.resume);
-    
-      // Clear any previous error message
-      setFlashMessage('');
-      setFlashMessage(responseData.message || 'Resume uploaded successfully');
+  
+      setFlashMessage(responseData.message);
+      setModalOpen(true);
     } catch (error) {
       console.error('Error uploading resume: ', error);
-      // Set the error message
       setFlashMessage(error.message || 'An error occurred while uploading the resume.');
-    } finally {
-      // Move the modal open state update inside the try block
-      setModalOpen(true);
+    }
+  };  
+
+  const handleAnalyzeClick = async () => {
+    try {
+      if (!selectedFile) {
+        throw new Error('Please upload a file before analyzing.');
+      }
+  
+      if (!jobDescription) {
+        throw new Error('Please enter a job description.');
+      }
+  
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('User not authenticated');
+      }
+  
+      if (!resumeId) {
+        throw new Error('Resume Id not found. Please upload the resume again.');
+      }
+  
+      const responseAnalysis = await fetch(`${API_URL}/${resumeId}/analyze`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          jobDescription: jobDescription
+        }),
+      });
+  
+      const data = await responseAnalysis.json();
+  
+      if (!responseAnalysis.ok) {
+        throw new Error(data.error || 'Failed to analyze resume.');
+      }
+  
+      console.log(data);
+
+      setAnalysisData(data);
+
+      setFlashMessage(data.message);
+
+      history.push(`${API_URL}/${resumeId}/analyze`);
+    } catch (error) {
+      console.error('Error analyzing resume: ', error);
+      setFlashMessage(error.message || 'Failed to analyze resume. Please try again later.');
     }
   };  
 
@@ -156,38 +151,12 @@ function Analyse() {
 
       {/* modal for displaying uploaded resume and job description */}
       {modalOpen && (
-        <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50'>
-          <div className='bg-white p-8 rounded-lg shadow-lg'>
-            <h2 className='text-xl font-semibold mb-4 text-gray-800'>Upload Job Description</h2>
-            <div className='flex justify-between'>
-              {/* Display uploaded resume */}
-              <div className='w-1/2'>
-                <h3 className='text-lg font-semibold mb-2 text-gray-700'>Uploaded Resume:</h3>
-                <p className='text-gray-600'>{selectedFile ? selectedFile.name : 'No file uploaded'}</p>
-              </div>
-              {/* Input field for job description */}
-              <div className='w-1/2'>
-                <h3 className='text-lg font-semibold mb-2 text-gray-700'>Job Description</h3>
-                <textarea
-                  className='w-full h-24 border border-gray-300 rounded-md p-2 resize-none text-black'
-                  value={jobDescription}
-                  onChange={handleDescriptionChange}
-                  placeholder='Enter job description here...'
-                ></textarea>
-              </div>
-            </div>
-            <div className='mt-4 flex justify-end'>
-              {/* Button to trigger resume analysis */}
-              <button
-                type='button'
-                onClick={handleAnalyzeClick}
-                className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-4 py-2.5 text-sm'
-              >
-                Analyze Resume
-              </button>
-            </div>
-          </div>
-        </div>
+        <ResumeModal
+          selectedFile={selectedFile}
+          jobDescription={jobDescription}
+          handleDescriptionChange={handleDescriptionChange}
+          handleAnalyzeClick={handleAnalyzeClick}
+        />
       )}
     </section>
   );

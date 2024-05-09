@@ -1,57 +1,58 @@
-2024-05-05 00:15:03,921 - DEBUG - Resume content: 
+2024-05-09 14:32:21,846 - DEBUG - Resume content: 
 
-SAMARTH LAWANIA
-+91 8529820467\u22c4Bharatpur, Rajasthan
-samarthlawania2002@gmail.com\u22c4linkedin.com/in/samarth-lawania
-EDUCATION
-GLA University, Mathura, Uttar PradeshExpected 2025
-B.Tech Computer Science
-Baba Sugreev Vidhyapeeth Sr. Sec. School, Bharatpur, Rajasthan2018–2020
-Intermediate:  Physics, Chemistry, MathematicsPercentage: 81.80%
-Baba Sugreev Vidhyapeeth Sr. Sec. School, Bharatpur, Rajasthan2016–2018
-HighschoolPercentage: 84.83%
-SKILLS
-Programming Languages:Java, JavaScript, TypeScript, Python
-Technical Skills:Data Structures & Algorithms, MERN, Git, GitHub
-Technologies:HTML, CSS, Node.js, EJS, React, MongoDB
-Frameworks:Express.js, Next.js, Tailwind CSS, Bootstrap, Redis
-Miscellaneous:Critical Thinker, Resilient, Communicative, Creativity
-PROJECTS
-EduTrack - Learning Management System—D3.js, Javascript, EJS, MongoDB, React
-•Visualizes global sales data for classroom and online courses, featuring interactive pie charts and detailed student
-enrollment information. Real-time sales value updates: e.g.,$5.4M total revenue, 35% online course sales growth.
-•Executed user-friendly interfaces for instructors to create andmanage courses, and for students to enroll, access
-content, and track progress causing an 8% rise in user interaction.
-•Includes responsive design, data security measures, and clear setup instructions for quick deployment in compe-
-titions. Real-time numerical updates enhance user experience: e.g., 500 enrolled students, 98% data encryption
-compliance.
-ConnectSphere—Mongodb, JWT, React, Bcrypt
-•Developed a social media platform using the MERN stack, allowing users to sign up, create profiles, and share
-various types of content including text, images, and videos.
-•Added real-time chat functionality, enabling users to engage in private and group conversations.
-•Designed and integrated user authentication, profile management, and news feed aggregation features, ensuring
-a 10% faster user experience.
-Dukaan|Javascript, EJS, MongoDB, Mongodb, RESTful API
-•E-commerce website that lets users register as sellers or buyers,with product management (CRUD operations),
-and purchase workflows streamlining the user experience by 30%
-•Integrated cross-functional shopping cart lets users add items to a cart along with integrated browsing resulting
-in increasing customer satisfaction ratings by 25%
-•Integrated secure payment gateways to facilitate smooth transactions, ensuring a seamless shopping experience
-for users while prioritizing data security.
-ACHIEVEMENTS
-•Smart India Hackathon: Developed a Human Detection system in the prestigious SIH 2023.
-•SIH @GLA University: Teamed up with 5 people to gain success in a competitive Smart India Hackathon event
-at the university level.
-•Winner of Etheos 1.0 : First prize in coding contest at annual event IEEE.
-•Solved 500+ Problems based on Data Structures and Algorithms on Leetcode, GeeksforGeeks and Codeforces.
-2024-05-05 00:15:03,921 - DEBUG - Job description: We are looking for a highly skilled computer programmer who is comfortable with both front and back end programming. Full stack developers are responsible for developing and designing front end web architecture, ensuring the responsiveness of applications, and working alongside graphic designers for web design features, among other duties. Full stack developers will be required to see out a project from conception to final product, requiring good organizational skills and attention to detail. Full Stack Developer Responsibilities: Developing front end website architecture. Designing user interactions on web pages. Developing back-end website applications. Creating servers and databases for functionality. Ensuring cross-platform optimization for mobile phones. Ensuring responsiveness of applications. Working alongside graphic designers for web design features. Seeing through a project from conception to finished product. Designing and developing APIs. Meeting both technical and consumer needs. Staying abreast of developments in web applications and programming languages. Full Stack Developer Requirements: Degree in computer science. Strong organizational and project management skills. Proficiency with fundamental front-end languages such as HTML, CSS, and JavaScript. Familiarity with JavaScript frameworks such as Angular JS, React, and Amber. Proficiency with server-side languages such as Python, Ruby, Java, PHP, and .Net. Familiarity with database technology such as MySQL, Oracle, and MongoDB. Excellent verbal communication skills. Good problem-solving skills. Attention to detail. Exp - 3+ Years Job Type: Full-time Salary: \u20b930,000.00 - \u20b950,000.00 per month Ability to commute/relocate: Dehradun, Uttarakhand: Reliably commute or planning to relocate before starting work (Required) Education: Bachelor's (Preferred) Experience: Full-stack development: 3 years (Required) Shift availability: Night Shift (Required) Overnight Shift (Required)
-2024-05-05 00:15:03,924 - ERROR - An error occurred:
-2024-05-05 00:15:03,935 - ERROR - Traceback (most recent call last):
-  File "D:\Mini Project - II\Smart Resume Analyzer\Smart-Resume-Analyzer\backend\utils\resume_analyzer.py", line 97, in main
-    similarity_score = calculate_similarity(resume_content, job_description)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\Mini Project - II\Smart Resume Analyzer\Smart-Resume-Analyzer\backend\utils\resume_analyzer.py", line 66, in calculate_similarity
-    vectorizer = TfidfVectorizer(stop_words='english')
-                 ^^^^^^^^^^^^^^^
-NameError: name 'TfidfVectorizer' is not defined
-
+Jatin Sharma 
++916367807635 | jkjatinsharma72@gmail.com | LinkedIn | Portfolio 
+Education 
+GLA University                                                                                                                   Mathura, Uttar Pradesh 
+Bachelor of Technology in Computer Science                                                                               Sep 2021 – Jun 2025 
+Skills 
+Technical Skills: Java, Python, C, SQL, JavaScript, HTML/CSS, ReactJS, NodeJS, ExpressJS, MongoDB, Flask, 
+Django, Flutter, Git/Github, Firebase, Clerk, MySQL, ThreeJS, pandas, NumPy, Matplotlib, BeautifulSoup, NLP, 
+tensorflow, spaCy, ChartJS. D3.js, langchain, OpenAI 
+Professional Skills: Leadership, Teamwork, Team Mangement, Problem Solving, Critical Thinking 
+Experience 
+Full Stack Developer Intern                                                                                               June 2023 - July 2023 
+IGOKO Avionics Pvt Ltd                                                                                                                      New Delhi, India 
+• Contributed in various B2B and B2G projects using HTML, CSS, JavaScript, Django, ReactJS, NodeJS, 
+ExpressJS, and MongoDB. 
+• Collaborated with senior developers to design and implement scalable solutions. 
+• Participated in the requirement gathering and prototype building process of software development. 
+Trainee                                                                                                                                    June 2023 – July 2023 
+Coding Blocks                                                                                                                         GLA University, Mathura 
+• Completed a comprehensive training program in DSA, solidifying the foundation for efficient problem-
+solving. 
+• Gained expertise in competitive programming techniques, preparing for coding challenges and contests. 
+• successfully tackled over 200 problems on LeetCode, demonstrating strong problem-solving abilities and 
+algorithmic knowledge. 
+Vice President                                                                                                                            May 2022 - Present 
+GLAU CodeChef Chapter – CodeBusters                                                                                Mathura, Uttar Pradesh 
+• Led the chapter in achieving significant growth and recognition within the university. 
+• Organized and managed multiple workshops, tech fests, and coding contests. 
+• Facilitated collaborations between students, faculty, and industry professionals. 
+• Provided mentorship and guidance to members, fostering skill development. 
+Projects 
+ResuFit | ReactJS, ExpressJS, MongoDB, NodeJS, NLP, spaCy                                      March 2024 – Present 
+• Developed a Smart Resume Analyser using ReactJS, ExpressJS, NodeJS, MongoDB. 
+• Implemented node-nlp and spaCy libraries for natural language processing and named entity recognition. 
+• Enables users to upload resumes and job descriptions for comprehensive analysis. 
+• Generates detailed reports comparing resume with job description, highlighting matching and missing 
+skills. 
+• Provides recommendations for job matches and suggests skill improvement courses and contents. 
+Insight-360 | ReactJS, ExpressJS, NodeJs, MongoDB, Langchain, OpenAI                               Apr 2024 - Present 
+• Created a comprehensive E-commerce Analytics Dashboard integrating ReactJS, ExpressJS, MongoDB, 
+NodeJS. 
+• Implemented REST API for secure communication between frontend and backend. 
+• Designed interactive D3.js visualizations for user-friendly data presentation in the form of heatmaps, 
+charts and geospatial visualization. 
+• Features include sales performance metrics, customer segmentation, and product analysis. 
+• Implemented cart abandonment recovery and customer retention strategies. 
+• Analysed customer feedback to enhance satisfaction and product improvements. 
+Achievements 
+• 5 Stars in Java, Python and C on Hackerrank. 
+• Certified in Java, Python and Problem Solving by Hackerrank. 
+• Solved 200+ questions on Leetcode. 
+Extra/Co-Curricular Activities 
+• Coordinated coding workshop (Codingo) and technical fest (Catalyst) at CodeBusters GLA University 
+(Jan 2022, Nov 2022) 
+• Participated in HacktoberFest (October 2022) and SIH (September 2023) 
+2024-05-09 14:32:21,846 - DEBUG - Job description: job description

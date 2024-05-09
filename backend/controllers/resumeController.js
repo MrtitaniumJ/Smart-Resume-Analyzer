@@ -21,7 +21,7 @@ exports.uploadResume = async (req, res) => {
 
 exports.analyzeResume = async (req, res) => {
     try {
-        let { resumeId } = req.params;
+        const { resumeId } = req.params;
 
         if (resumeId.startsWith(':')) {
             resumeId = resumeId.slice(1);
