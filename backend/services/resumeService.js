@@ -63,7 +63,19 @@ class ResumeService {
                 const report = results[0];
                 // Update resume with analysis report
                 await this.updateAnalysisReport(resumeId, report);
-                return { message: 'Resume report generated', data: report };
+
+                //prepare the analysis data to show on frontend
+                const analysisData = {
+                    contact_information: report.contact_information || { phone_numbers: [], emails: [] },
+                    education_information: report.education_information || [],
+                    experience_information: report.experience_information || [],
+                    skills_information: report.skills_information || [],
+                    similarity_score: report.similarity_score || 0
+                };
+
+                return analysisData;
+
+                // return { message: 'Resume report generated', data: report };
             } else {
                 throw new Error('Analysis result is not available');
             }
