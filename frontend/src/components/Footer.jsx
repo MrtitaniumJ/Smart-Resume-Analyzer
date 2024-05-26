@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-center items-center">
           <p className="text-white text-sm">
-            © 2024 Your Company. All rights reserved.
+            © 2024 ResuFit. All rights reserved.
           </p>
         </div>
       </div>
