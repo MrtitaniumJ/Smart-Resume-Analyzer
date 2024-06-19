@@ -1,11 +1,13 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const resume = require('../models/resume');
 
 // Controller function to handle user registration
 exports.registerUser = async (req, res) => {
     try {
         const { username, email, password, confirmPassword } = req.body;
+        // console.log(username,email,password,confirmPassword);
 
         // Check if the required fields are provided
         if (!username || !email || !password || !confirmPassword) {
@@ -58,7 +60,7 @@ exports.loginUser = async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '10h' });
         res.status(200).json({ token });
     } catch (error) {
         console.error('Error logging in user: ', error);
@@ -70,7 +72,7 @@ exports.loginUser = async (req, res) => {
 exports.getUserDetails = async (req, res) => {
     try {
         const userId = req.userId;
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).populate('uploadedResumes');
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -78,6 +80,57 @@ exports.getUserDetails = async (req, res) => {
     } catch (error) {
         console.error('Error fetching user details:', error);
         res.status(500).json({ error: 'An error occurred while fetching user details' });
+    }
+};
+
+// get user profile
+exports.getUserProfile = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        // const user = await User.findById(userId).populate('uploadedResumes');
+        const user = await User.findById(userId);
+
+        const resumes = await resume.find({ userId: userId });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const userProfile = {
+            username: user.username,
+            email: user.email,
+            profileImage: user.profileImage,
+            uploadedResumes: resumes.map(resume => ({
+                resumeId: resume._id,
+                filename: resume.filename,
+            })),
+        };
+        
+        res.json(userProfile);
+    } catch (error) {
+        console.error('Error fetching user profile: ', error);
+        res.status(500).json({ error: error.message || 'An error occurred while fetching user profile' });
+    }
+};
+
+exports.updateUserProfile = async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        //extract user data from the request body
+        const { username, email, profileImage, uploadedResumes } = req.body;
+
+        // update user profile in the database
+        await User.findByIdAndUpdate(userId, {
+            username: username,
+            email: email,
+            profileImage: profileImage,
+            uploadedResumes: uploadedResumes,
+        });
+
+        res.json({ message: 'User profile updated successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
 

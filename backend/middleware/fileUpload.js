@@ -1,16 +1,25 @@
 const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+const uploadDir = path.join(__dirname, '..', 'uploads');
+
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploads');
+        cb(null, uploadDir);
     },
     filename: function (req, file, cb) {
-        cb(null, new Date().toISOString() + '_' + file.originalname);
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
     }
 });
 
-//file fiter to accept only .docx and .pdf files
-const fileFilter = (req, file ,cb) => {
+// File filter to accept only .docx and .pdf files
+const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'application/pdf' || file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
         cb(null, true);
     } else {
@@ -21,9 +30,9 @@ const fileFilter = (req, file ,cb) => {
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 1024 * 1024 * 5
+        fileSize: 1024 * 1024 * 5 // 5 MB file size limit
     },
     fileFilter: fileFilter
-});
+}).single('resume');
 
 module.exports = upload;

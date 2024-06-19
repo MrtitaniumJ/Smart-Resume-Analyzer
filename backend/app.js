@@ -1,39 +1,42 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
+const resumeRoutes = require('./routes/resumeRoutes');
+const userRouter = require('./routes/userRoutes');
 const { validationError, globalErrorHandler } = require('./utils/errorHandlers');
 const cors = require('cors');
-require('dotenv').config();
 
 const app = express();
 
+// Middleware
+app.use(bodyParser.json());
 app.use(cors());
 
-// Implement models
-const { User, Resume } = require('./models');
-
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://jkjatinsharma72:resume-analyser@cluster0.m7ldc4t.mongodb.net/test', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/smart-resume-analyser', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
 .then(() => {
-    console.log('Connected  to MongoDB');
+    console.log('Connected to MongoDB');
 })
 .catch((error) => {
     console.error('Error connecting to MongoDB: ', error.message);
 });
 
-// Middleware 
-app.use(bodyParser.json());
-
-//Routes 
+// Routes
+app.use(userRouter);
+app.use(resumeRoutes);
 app.use(routes);
 
-//Error handling middleware
+// Error handling middleware
 app.use(validationError);
 app.use(globalErrorHandler);
+
+// Static files
+app.use('/profile-images', express.static('profile-images'));
 
 // Error handling for uncaught exceptions
 process.on('uncaughtException', (error) => {
@@ -47,7 +50,7 @@ process.on('unhandledRejection', (error) => {
     process.exit(1);
 });
 
-// Other middleware and routes
+// Start server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

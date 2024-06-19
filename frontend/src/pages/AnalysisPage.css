@@ -1,0 +1,60 @@
+/* AnalysisPage.css */
+.analysis-page {
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .analysis-container {
+    width: 90%;
+    max-width: 1200px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+  }
+  
+  .analysis-heading h2 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .analysis-content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  
+  .column {
+    flex: 1;
+  }
+  
+  .field {
+    margin-bottom: 20px;
+  }
+  
+  .field h3 {
+    font-size: 20px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .similarity-score {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .loading {
+    font-size: 24px;
+    color: #fff;
+  }
+  
